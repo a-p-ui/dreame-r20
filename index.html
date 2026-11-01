@@ -121,13 +121,13 @@ h1,h2{font-family:var(--f-head);text-wrap:balance;margin:0;letter-spacing:-.01em
 .card.pad{padding:12px}
 .player{position:relative;background:#000}
 .player video{display:block;width:100%;aspect-ratio:640/310;object-fit:cover;background:#000;cursor:pointer}
-.pover{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;border:0;cursor:pointer;color:#fff;
-  background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.55));font:700 18px var(--f-body);text-shadow:0 1px 3px rgba(0,0,0,.7)}
-.pover .play{position:relative;left:auto;top:auto;margin:0;width:66px;height:66px;background:var(--glow);box-shadow:0 0 0 4px rgba(255,255,255,.35)}
-.pover .play::after{left:26px;top:20px;border-left-width:22px;border-top-width:13px;border-bottom-width:13px}
+/* mažas mygtukas kampe: vaizdas lieka matomas */
+.pover{position:absolute;left:10px;bottom:15px;display:flex;align-items:center;gap:8px;border:0;cursor:pointer;color:#fff;
+  background:rgba(0,0,0,.62);border-radius:999px;padding:5px 14px 5px 5px;font:700 15px var(--f-body)}
+.pover .play{position:relative;left:auto;top:auto;margin:0;width:34px;height:34px;background:var(--glow);box-shadow:none;flex:none}
+.pover .play::after{left:13px;top:9px;border-left-width:12px;border-top-width:8px;border-bottom-width:8px}
 .pover.again .play{background:#fff}
 .pover.again .play::after{border-left-color:var(--night)}
-.pover span{background:rgba(0,0,0,.55);padding:4px 12px;border-radius:999px}
 .pbar{height:5px;background:rgba(255,255,255,.18)}
 .pbar i{display:block;height:100%;width:0;background:var(--glow-led);transition:width .25s linear}
 .marked{position:relative;margin:0 auto;max-width:380px}
@@ -382,14 +382,14 @@ function extra(s){
 function clipOf(id,i){var c=CLIPS[id];return c&&c[i]?c[i]:null}
 function player(c,poster){var len=c[1]-c[0];
   return '<div class="player"><video id="vid" src="clips/c_'+c[0]+'_'+c[1]+'.mp4"'+(poster?' poster="'+M(poster)+'"':'')+' muted playsinline preload="auto"></video>'+
-   '<button type="button" class="pover" id="pover" aria-label="Rodyti vaizdo atkarpą"><b class="play" aria-hidden="true"></b><span>Rodyti, kaip tai daroma · '+len+' s</span></button>'+
+   '<button type="button" class="pover" id="pover" aria-label="Rodyti vaizdo atkarpą"><b class="play" aria-hidden="true"></b><span>Rodyti · '+len+' s</span></button>'+
    '<div class="pbar"><i id="pfill"></i></div></div>';}
 function wirePlayer(){var v=$('vid'),o=$('pover'),fill=$('pfill');if(!v)return;
   function play(){o.hidden=true;v.currentTime=0;var p=v.play();if(p&&p.catch)p.catch(function(){o.hidden=false});}
   o.onclick=play;
   v.onclick=function(){if(v.paused){o.hidden=true;v.play()}else{v.pause();o.querySelector('span').textContent='Tęsti';o.hidden=false;o.onclick=function(){o.hidden=true;v.play()}}};
   v.ontimeupdate=function(){if(v.duration)fill.style.width=(100*v.currentTime/v.duration)+'%'};
-  v.onended=function(){o.querySelector('span').textContent='Rodyti dar kartą';o.classList.add('again');o.onclick=play;o.hidden=false;var nb=$('nextb');if(nb)nb.classList.add('ready')};
+  v.onended=function(){o.querySelector('span').textContent='Dar kartą';o.classList.add('again');o.onclick=play;o.hidden=false;var nb=$('nextb');if(nb)nb.classList.add('ready')};
   play();}
 
 // Pradžia
