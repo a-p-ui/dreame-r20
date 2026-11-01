@@ -458,6 +458,6 @@ show();
 })();
 
 </script>
-<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});</script>
+<script>if('serviceWorker' in navigator){var had=!!navigator.serviceWorker.controller,re=false;navigator.serviceWorker.addEventListener('controllerchange',function(){if(had&&!re){re=true;location.reload()}});navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(function(){});}</script>
 </body>
 </html>
